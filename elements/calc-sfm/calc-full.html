@@ -1,0 +1,137 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+	<dom-module id="calc-full">
+		<style>
+			:host
+			{
+				display : block;
+			}
+			
+			@media (max-width: 600px)
+			{
+				h1.paper-font-display1 {
+						        font-size : 24px;
+				text-align : center;
+			}
+		</style>
+		<template>
+			<h1 class="paper-font-display1">Estimated Results
+			</h1>
+			<span class="paper-font-body2">Fill in known specs.
+			</span>
+			<div>
+				<span class="paper-font-body2">Operation Specs:
+				</span>
+				<span>
+					<input class="paper-font-body2" placeholder="{{rpm}}" value="{{rpm::input}}">
+					</span>
+					<span>
+						<input class="paper-font-body2" placeholder="{{ipm}}" value="{{ipm::input}}">
+						</span>
+						<span>
+							<input class="paper-font-body2" placeholder="{{sfm}}" value="{{sfm::input}}">
+							</span>
+							<span>
+								<input class="paper-font-body2" placeholder="{{fpt}}" value="{{fpt::input}}">
+								</span>
+								<span>
+									<input class="paper-font-body2" placeholder="{{mmr}}" value="{{mmr::input}}">
+									</span>
+								</div>
+								<div>
+									<span class="paper-font-body2">Tool Specs:
+									</span>
+									<span>
+										<input class="paper-font-body2" placeholder="{{diameter}}" value="{{diameter::input}}">
+										</span>
+										<span>
+											<input class="paper-font-body2" placeholder="{{ntt}}"value="{{ntt::input}}">
+											</span>
+											<span>
+												<input class="paper-font-body2" placeholder="{{woc}}" value="{{woc::input}}">
+												</span>
+												<span>
+													<input class="paper-font-body2" placeholder="{{doc}}" value="{{doc::input}}">
+													</span>
+												</div>
+											</template>
+		
+											<script>
+												(function() {
+													Polymer( {
+														properties : {
+															is : 'calc-full',
+															rpm : {
+																type : Number,
+																notify : true,
+																computed : 'computedRpm(sfm, diameter)'
+															},
+															diameter : {
+																type : Number,
+																notify : true,
+																computed : 'computedDia(rpm, sfm)'
+															},
+															ipm : {
+																type : Number,
+																notify : true,
+																computed : 'computedIpm(ntt, rpm, fpt)'
+															},
+															sfm : {
+																type : Number,
+																notify : true,
+																computed : 'computedSfm(rpm, diameter)'
+															},
+															fpt : {
+																type : Number,
+																notify : true,
+																computed : 'computedFpt(rpm, ntt, ipm)'
+															},
+															mmr : {
+																type : Number,
+																notify : true,
+																computed : 'computedMmr(woc, doc, ipm)'
+															},
+															ntt : {
+																type : Number,
+																notify : true
+															},
+															woc : {
+																type : Number,
+																notify : true
+															},
+															doc : {
+																type : Number,
+																notify : true
+															}
+														},
+														computedRpm : function(sfm, diameter) {
+															return (sfm * 3.8197) / diameter;
+														},
+														computedDia : function(rpm, diameter) {
+															return rpm * diameter * .262;
+														},
+														computedIpm : function(rpm, fpt, ntt) {
+															return rpm * fpt * ntt;
+														},
+														computedSfm : function(rpm, diameter) {
+															return rpm * diameter * .262;
+														},
+														computedFpt : function(rpm, ipm, ntt) {
+															return ipm / (ntt * rpm);
+														},
+														computedMmr : function(woc, doc, ipm) {
+															return woc * doc * ipm;
+														}
+													});
+												})();
+											</script>
+											
+										</dom-module>
